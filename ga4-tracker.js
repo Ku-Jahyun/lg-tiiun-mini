@@ -13,12 +13,12 @@ const GA4_CONFIG = {
   // 디버그 모드: true일 경우 화면 상단/하단 디버그 패널 및 브라우저 콘솔에 이벤트 페이로드가 실시간 표시됩니다.
   debugMode: true,
 
-  // 기본 인스타그램 유입 파라미터 (URL에 UTM이 없을 때 폴백값)
+  // 기본 인스타그램 유입 파라미터 (URL에 UTM이 없을 때는 가짜 캠페인명을 넣지 않고 순수하게 비워둠)
   defaultUtm: {
-    source: 'instagram',
-    medium: 'bio_link',
-    campaign: 'tiiun_mini_spring_2026',
-    content: 'organic_profile'
+    source: '',
+    medium: '',
+    campaign: '',
+    content: ''
   },
 
   // 스크롤 깊이 추적 임계값 (%)
@@ -51,22 +51,28 @@ class GA4Tracker {
     let isInstagramRef = referrer.includes('instagram.com') || navigator.userAgent.toLowerCase().includes('instagram');
 
     const utm = {
-      utm_source: params.get('utm_source') || (isInstagramRef ? 'instagram' : this.config.defaultUtm.source),
-      utm_medium: params.get('utm_medium') || (isInstagramRef ? 'in_app_browser' : this.config.defaultUtm.medium),
-      utm_campaign: params.get('utm_campaign') || this.config.defaultUtm.campaign,
-      utm_content: params.get('utm_content') || this.config.defaultUtm.content,
-      utm_term: params.get('utm_term') || 'tiiun_mini_L023E1P42',
+      utm_source: params.get('utm_source') || (isInstagramRef ? 'instagram' : 'direct'),
+      utm_medium: params.get('utm_medium') || (isInstagramRef ? 'in_app_browser' : 'none'),
+      utm_campaign: params.get('utm_campaign') || '',
+      utm_content: params.get('utm_content') || '',
+      utm_term: params.get('utm_term') || '',
       referrer: document.referrer || 'direct',
       device_type: /Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
       is_inapp: /Instagram|KAKAOTALK/i.test(navigator.userAgent)
     };
 
-    // 세션 스토리지에 최초 유입 UTM 보존
-    if (!sessionStorage.getItem('tiiun_utm_first')) {
-      sessionStorage.setItem('tiiun_utm_first', JSON.stringify(utm));
+    // 비어있는 파라미터는 제외하고 실제 값이 있는 파라미터만 전송
+    const cleanUtm = {};
+    for (const [k, v] of Object.entries(utm)) {
+      if (v) cleanUtm[k] = v;
     }
 
-    return utm;
+    // 세션 스토리지에 최초 유입 UTM 보존
+    if (!sessionStorage.getItem('tiiun_utm_first')) {
+      sessionStorage.setItem('tiiun_utm_first', JSON.stringify(cleanUtm));
+    }
+
+    return cleanUtm;
   }
 
   /**
