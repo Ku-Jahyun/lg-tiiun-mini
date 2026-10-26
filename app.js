@@ -69,47 +69,43 @@ const SEED_KITS = {
   ]
 };
 
-// 캐릭터 성장 단계 정의
+// 캐릭터 성장 단계 정의 (1. 씨앗, 2. 새싹, 3. 잎, 4. 꽃)
 const PET_STAGES = {
   seed: {
-    levelName: 'Lv.1 씨앗 요정',
+    levelName: 'Lv.1 아기 씨앗이',
     expText: '애착도 25%',
     expPercent: '25%',
-    leaf: '🌰',
-    eyes: '◡   ◡',
-    mouth: 'o',
-    defaultMsg: '"어두운 흙 대신 포근한 배지 속에서 대기 중!"',
-    afterWaterMsg: '"따뜻한 물을 머금고 싹틀 준비를 마쳤어요! 🌰"'
+    image: 'images/character_seed.png',
+    alt: '포근한 씨앗 껍질을 둘러쓴 아기 씨앗이',
+    defaultMsg: '"포근한 배지 속에서 싹틀 준비를 하고 있어요! 🌰"',
+    afterWaterMsg: '"촉촉한 물을 머금고 꼬물꼬물 깨어날 준비 완료! 🌱"'
   },
   sprout: {
     levelName: 'Lv.2 아기 새싹이',
     expText: '애착도 75%',
     expPercent: '75%',
-    leaf: '🌱',
-    eyes: '●   ●',
-    mouth: '◡',
+    image: 'images/character_sprout.png',
+    alt: '머리에 아기 새싹이 돋아난 새싹이',
     defaultMsg: '"나 목말라 물줘!~ 💧"',
     afterWaterMsg: '"물을 줘서 고마워요! 오늘도 조금 자랐어요🌱"'
   },
   leaf: {
-    levelName: 'Lv.3 무럭무럭 초록이',
+    levelName: 'Lv.3 무럭무럭 초록 잎',
     expText: '애착도 90%',
     expPercent: '90%',
-    leaf: '🌿',
-    eyes: '❛   ˂̵',
-    mouth: 'ᗜ',
-    defaultMsg: '"새 잎이 3장이나 더 돋았어요! 햇살 최고 ☀️"',
-    afterWaterMsg: '"시원한 물 마시고 쑥쑥 자라는 중! 🌿"'
+    image: 'images/character_leaf.png',
+    alt: '싱그러운 초록 잎을 품에 안은 반려견 캐릭터',
+    defaultMsg: '"초록 잎이 튼튼하게 자랐어요! 틔운 불빛 최고 ☀️"',
+    afterWaterMsg: '"시원한 물 마시고 쑥쑥 자라는 중이에요! 🌿"'
   },
   bloom: {
-    levelName: 'Lv.4 바질&꽃 요정',
+    levelName: 'Lv.4 활짝 핀 꽃',
     expText: '애착도 100% (완전체)',
     expPercent: '100%',
-    leaf: '🌼',
-    eyes: '≧   ≦',
-    mouth: '▽',
-    defaultMsg: '"풍성하게 자랐어요! 오늘 파스타에 얹어주세요 🍝"',
-    afterWaterMsg: '"주인님과 함께한 초록 일기, 매일이 행복해요 💚"'
+    image: 'images/character_flower.png',
+    alt: '화사한 주황빛 꽃다발을 든 꽃 캐릭터',
+    defaultMsg: '"주황빛 꽃이 활짝 피었어요! 매일이 행복해요 🌼"',
+    afterWaterMsg: '"주인님 사랑 덕분에 예쁜 꽃이 활짝 피어났어요! 💚"'
   }
 };
 
@@ -117,7 +113,6 @@ const PET_STAGES = {
 const OFFICIAL_PURCHASE_URL = 'https://www.lge.co.kr/product/lg-tiiun/l023e1p42?modelId=MD10823857&pdpType=PURCHASE';
 
 document.addEventListener('DOMContentLoaded', () => {
-  initLightSwitcher();
   initTamagotchiSimulator();
   initSeedKitSelector();
   initFaqAccordion();
@@ -128,46 +123,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * 1. 조명 모드 체험 인터랙션
- */
-function initLightSwitcher() {
-  const card = document.getElementById('hero-visual');
-  const btnGrow = document.getElementById('btn-mode-grow');
-  const btnMood = document.getElementById('btn-mode-mood');
-
-  if (!card || !btnGrow || !btnMood) return;
-
-  btnGrow.addEventListener('click', () => {
-    btnGrow.classList.add('active');
-    btnMood.classList.remove('active');
-    card.classList.remove('mode-mood');
-    showToast('🌱 식물 생장 특화 LED (주광색) 모드로 전환되었습니다.');
-
-    if (window.ga4Tracker) {
-      window.ga4Tracker.trackLightInteraction('grow_mode', '100%');
-    }
-  });
-
-  btnMood.addEventListener('click', () => {
-    btnMood.classList.add('active');
-    btnGrow.classList.remove('active');
-    card.classList.add('mode-mood');
-    showToast('🌙 은은한 감성 무드등 (웜톤) 모드로 전환되었습니다.');
-
-    if (window.ga4Tracker) {
-      window.ga4Tracker.trackLightInteraction('mood_mode', '50%');
-    }
-  });
-}
-
-/**
- * 2. ★ [핵심] ThinQ 가상 새싹이 다마고치 시뮬레이터 인터랙션
+ * 2. ★ [핵심] ThinQ 가상 새싹이 다마고치 시뮬레이터 인터랙션 (실제 일러스트 캐릭터 연동)
  */
 function initTamagotchiSimulator() {
   const stageBtns = document.querySelectorAll('.stage-btn');
   const dialogueEl = document.getElementById('pet-dialogue-text');
-  const leafEl = document.getElementById('pet-top-leaf');
-  const mouthEl = document.getElementById('pet-mouth');
+  const charImg = document.getElementById('pet-character-img');
   const sweatEl = document.getElementById('pet-sweat');
   const levelNameEl = document.getElementById('meter-level-name');
   const expTextEl = document.getElementById('meter-exp-text');
@@ -187,9 +148,20 @@ function initTamagotchiSimulator() {
     currentStage = stageKey;
     isWatered = false;
 
-    // UI 변경
-    leafEl.textContent = data.leaf;
-    mouthEl.textContent = data.mouth;
+    // UI 및 캐릭터 이미지 변경 (부드러운 팝 애니메이션)
+    if (charImg) {
+      charImg.classList.remove('pop-anim');
+      charImg.style.opacity = '0';
+      charImg.style.transform = 'scale(0.85)';
+      setTimeout(() => {
+        charImg.src = data.image;
+        charImg.alt = data.alt;
+        charImg.style.opacity = '1';
+        charImg.style.transform = 'scale(1)';
+        charImg.classList.add('pop-anim');
+      }, 120);
+    }
+
     dialogueEl.textContent = data.defaultMsg;
     levelNameEl.textContent = data.levelName;
     expTextEl.textContent = data.expText;
@@ -225,17 +197,22 @@ function initTamagotchiSimulator() {
       
       // 목마름 해소 표현
       sweatEl.style.display = 'none';
-      mouthEl.textContent = '▽';
       dialogueEl.textContent = data.afterWaterMsg;
 
       // 하트 애니메이션 및 캐릭터 점프
       triggerHeartAnimation();
-      creatureEl.style.transform = 'translateY(-12px) scale(1.1)';
+      if (charImg) {
+        charImg.style.transform = 'translateY(-14px) scale(1.12)';
+        setTimeout(() => {
+          charImg.style.transform = 'scale(1)';
+        }, 350);
+      }
+      creatureEl.style.transform = 'translateY(-6px)';
       setTimeout(() => {
         creatureEl.style.transform = '';
-      }, 400);
+      }, 350);
 
-      showToast('💧 틔운 미니에 물을 채웠습니다! 새싹이가 기뻐합니다.');
+      showToast('💧 틔운 미니에 물을 채웠습니다! 캐릭터가 기뻐합니다.');
 
       // GA4 이벤트
       if (window.ga4Tracker) {
@@ -247,15 +224,19 @@ function initTamagotchiSimulator() {
   // 3) 쓰다듬기 클릭
   function handleTouch() {
     triggerHeartAnimation();
-    mouthEl.textContent = '◡';
     dialogueEl.textContent = '"간질간질~ 기분 좋아요! 사랑해요 주인님 💚"';
 
-    creatureEl.style.transform = 'rotate(-5deg) scale(1.05)';
-    setTimeout(() => {
-      creatureEl.style.transform = '';
-    }, 300);
+    if (charImg) {
+      charImg.style.transform = 'rotate(-6deg) scale(1.08)';
+      setTimeout(() => {
+        charImg.style.transform = 'rotate(4deg) scale(1.04)';
+        setTimeout(() => {
+          charImg.style.transform = '';
+        }, 180);
+      }, 150);
+    }
 
-    showToast('💚 새싹이와의 친밀도가 상승했습니다!');
+    showToast('💚 캐릭터와의 친밀도가 상승했습니다!');
 
     if (window.ga4Tracker) {
       window.ga4Tracker.trackCharacterWater('tap_character', 'love');

@@ -40,7 +40,7 @@
       <nav class="main-nav" id="main-nav">
         <div class="nav-brand">
           <img src="https://www.lge.co.kr/kr/images/nextjs/lg_logo_213x56.png" alt="LG전자 로고" class="lg-logo">
-          <span class="product-tag">틔운 미니 × ThinQ</span>
+          <span class="product-tag">틔운 미니</span>
         </div>
         <div class="nav-actions">
           <button type="button" class="btn-icon" id="btn-share" aria-label="친구에게 공유하기">
@@ -100,22 +100,8 @@
             <div class="hero-character-preview">
               <div class="mini-bubble">"오늘도 조금 자랐어요🌱"</div>
               <div class="character-avatar-mini bounce-anim">
-                <div class="sprout-leaf">🌱</div>
-                <div class="sprout-face">ᵔᵕᵔ</div>
+                <img src="images/character_sprout.png" class="mini-avatar-img" alt="LG ThinQ 새싹이 캐릭터">
               </div>
-            </div>
-          </div>
-
-          <!-- Interactive Light Mode Switcher -->
-          <div class="interactive-switch-bar">
-            <span class="switch-label">조명 모드 체험:</span>
-            <div class="switch-buttons">
-              <button type="button" class="btn-switch-mode active" data-mode="grow" id="btn-mode-grow">
-                🌱 생장 모드 (주광)
-              </button>
-              <button type="button" class="btn-switch-mode" data-mode="mood" id="btn-mode-mood">
-                🌙 감성 무드 (웜)
-              </button>
             </div>
           </div>
         </div>
@@ -123,7 +109,6 @@
         <!-- Price & Special Benefit Card -->
         <div class="price-banner-card">
           <div class="price-tag-row">
-            <span class="discount-rate">인스타 단독 8%</span>
             <span class="original-price">218,000원</span>
           </div>
           <div class="final-price-row">
@@ -180,8 +165,8 @@
             <div class="pet-stages-selector">
               <button type="button" class="stage-btn" data-stage="seed">1. 씨앗</button>
               <button type="button" class="stage-btn active" data-stage="sprout">2. 새싹</button>
-              <button type="button" class="stage-btn" data-stage="leaf">3. 성장</button>
-              <button type="button" class="stage-btn" data-stage="bloom">4. 요정</button>
+              <button type="button" class="stage-btn" data-stage="leaf">3. 잎</button>
+              <button type="button" class="stage-btn" data-stage="bloom">4. 꽃</button>
             </div>
 
             <!-- Character Room Stage -->
@@ -193,17 +178,13 @@
                 <span id="pet-dialogue-text">"나 목말라 물줘!~ 💧"</span>
               </div>
 
-              <!-- Animated Character Figure -->
+              <!-- Animated Character Figure with Real Chibi Illustrations -->
               <div class="character-creature" id="pet-creature">
-                <div class="pet-head" id="pet-head">
-                  <div class="pet-top-leaf" id="pet-top-leaf">🌱</div>
-                  <div class="pet-eyes" id="pet-eyes">
-                    <span class="eye left">●</span>
-                    <span class="eye right">●</span>
-                  </div>
-                  <div class="pet-mouth" id="pet-mouth">◡</div>
-                  <div class="pet-blush left"></div>
-                  <div class="pet-blush right"></div>
+                <div class="pet-character-wrapper">
+                  <img src="images/character_sprout.png" 
+                       id="pet-character-img" 
+                       class="pet-character-img" 
+                       alt="LG ThinQ 새싹이 캐릭터">
                   <!-- Sweat drop when thirsty -->
                   <div class="pet-sweat" id="pet-sweat">💦</div>
                 </div>
