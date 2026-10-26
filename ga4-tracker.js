@@ -236,6 +236,12 @@ class GA4Tracker {
       ...finalProduct
     });
 
+    // n8n 리포트 호환용 cta_click 별칭 이벤트도 발화
+    this.sendEvent('cta_click', {
+      cta_location: buttonLocation,
+      cta_text: buttonText
+    });
+
     // GA4 전자상거래 표준 'begin_checkout' 이벤트도 동시 전송
     this.sendEvent('begin_checkout', {
       currency: 'KRW',
@@ -275,6 +281,11 @@ class GA4Tracker {
       mood_before: 'thirsty',
       mood_after: 'happy',
       dialogue: '물을 줘서 고마워요! 오늘도 조금 자랐어요🌱'
+    });
+
+    // n8n 리포트 호환용 pet_water_click 별칭 이벤트도 발화
+    this.sendEvent('pet_water_click', {
+      action: actionType
     });
   }
 

@@ -156,6 +156,11 @@ function initTamagotchiSimulator() {
       setTimeout(() => {
         charImg.src = data.image;
         charImg.alt = data.alt;
+        charImg.style.width = '115px';
+        charImg.style.height = '115px';
+        charImg.style.maxWidth = '115px';
+        charImg.style.maxHeight = '115px';
+        charImg.style.objectFit = 'contain';
         charImg.style.opacity = '1';
         charImg.style.transform = 'scale(1)';
         charImg.classList.add('pop-anim');

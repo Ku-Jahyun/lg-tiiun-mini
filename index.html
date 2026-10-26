@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2.2">
 </head>
 <body>
   <div class="page-container">
@@ -100,7 +100,12 @@
             <div class="hero-character-preview">
               <div class="mini-bubble">"오늘도 조금 자랐어요🌱"</div>
               <div class="character-avatar-mini bounce-anim">
-                <img src="images/character_sprout.png" class="mini-avatar-img" alt="LG ThinQ 새싹이 캐릭터">
+                <img src="images/character_sprout.png" 
+                     class="mini-avatar-img" 
+                     width="42" 
+                     height="42" 
+                     style="width: 42px; height: 42px; max-width: 42px; max-height: 42px; object-fit: contain; display: block;" 
+                     alt="LG ThinQ 새싹이 캐릭터">
               </div>
             </div>
           </div>
@@ -184,11 +189,14 @@
                   <img src="images/character_sprout.png" 
                        id="pet-character-img" 
                        class="pet-character-img" 
+                       width="115" 
+                       height="115" 
+                       style="width: 115px; height: 115px; max-width: 115px; max-height: 115px; object-fit: contain; display: block;" 
                        alt="LG ThinQ 새싹이 캐릭터">
                   <!-- Sweat drop when thirsty -->
                   <div class="pet-sweat" id="pet-sweat">💦</div>
                 </div>
-                <div class="pet-pot">LG tiiun</div>
+                <div class="pet-pot">틔운이</div>
               </div>
 
               <!-- Growth Meter -->
@@ -528,6 +536,6 @@
   <!-- GA4 Tracker Core -->
   <script src="ga4-tracker.js"></script>
   <!-- Application Interactions -->
-  <script src="app.js"></script>
+  <script src="app.js?v=2.2"></script>
 </body>
 </html>
